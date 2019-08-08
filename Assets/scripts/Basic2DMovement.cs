@@ -41,6 +41,12 @@ public class Basic2DMovement : MonoBehaviour {
 			if (Input.GetButtonDown("Jump") && distanceToGround <= player.center.y) {
 				moveDirection.y = jumpSpeed;
 			}
+			if (Input.GetMouseButtonDown (0)) {
+				Debug.Log ("Left mouse button clicked");
+			}
+			if (Input.GetMouseButtonDown (1)) {
+				Debug.Log ("Right mouse button clicked");
+			}
 		}
 
 		moveDirection.y -= gravity * Time.deltaTime;
