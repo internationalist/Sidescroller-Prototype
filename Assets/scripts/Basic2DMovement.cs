@@ -32,38 +32,65 @@ public class Basic2DMovement : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		anim.SetBool ("jump", !IsGrounded ());
-		if (player.isGrounded) {
-			currentMovement = Input.GetAxis ("Horizontal");
-			anim.SetFloat ("movement", Mathf.Abs (currentMovement));
-			CheckForTurn ();
-			moveDirection = new Vector3 (currentMovement * -1, 0, 0);
-			moveDirection *= moveSpeed;
-			if (Input.GetButtonDown("Jump") && distanceToGround <= player.center.y) {
-				moveDirection.y = jumpSpeed;
+		if (!GameManager.MOVEMENT_LOCK) {
+			if (IsGrounded ()) {
+				CalculateMovement ();
+				ExecuteJump ();
+				ExecuteLightAttack ();
+				ExecuteHeavyAttack ();
 			}
-			if (Input.GetMouseButtonDown (0)) {
-				Debug.Log ("Left mouse button clicked");
-			}
-			if (Input.GetMouseButtonDown (1)) {
-				Debug.Log ("Right mouse button clicked");
-			}
+			ExecuteMovementWithGravity ();
 		}
-
+	}
+		
+	//Private methods below
+	void ExecuteMovementWithGravity ()
+	{
 		moveDirection.y -= gravity * Time.deltaTime;
-		player.Move(moveDirection*Time.deltaTime);
+		player.Move (moveDirection * Time.deltaTime);
 		previousMovement = currentMovement;
+	}
+
+	void ExecuteHeavyAttack ()
+	{
+		if (Input.GetMouseButtonDown (1)) {
+			anim.SetTrigger ("kick");
+		}
+	}
+
+	void ExecuteLightAttack ()
+	{
+		if (Input.GetMouseButtonDown (0)) {
+			anim.SetTrigger ("punch");
+		}
+	}
+
+	void ExecuteJump ()
+	{
+		if (Input.GetButtonDown ("Jump") && distanceToGround <= player.center.y) {
+			moveDirection.y = jumpSpeed;
+		}
+	}
+
+	void CalculateMovement ()
+	{
+		currentMovement = Input.GetAxis ("Horizontal");
+		anim.SetFloat ("movement", Mathf.Abs (currentMovement));
+		CheckForTurn ();
+		moveDirection = new Vector3 (currentMovement * -1, 0, 0);
+		moveDirection *= moveSpeed;
 	}
 
 	bool IsGrounded ()
 	{
 		RaycastHit hit;
 		if (Physics.Raycast (transform.position + new Vector3 (0, .1f), -transform.up, out hit, Mathf.Infinity)) {
-			//Debug.DrawRay (transform.position + new Vector3 (0, .1f), -transform.up * hit.distance, Color.black);
+			Debug.DrawRay (transform.position + new Vector3 (0, .1f), -transform.up * hit.distance, Color.red);
 			distanceToGround = hit.distance;
 			isGrounded = hit.distance <= groundedDistance;
 		}
 		else {
-			//Debug.DrawRay (transform.position, -transform.up * 1000, Color.green);
+			Debug.DrawRay (transform.position, -transform.up * 1000, Color.yellow);
 			Debug.Log ("Did not Hit ground, character is falling");
 			isGrounded = false;
 		}
