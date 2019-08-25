@@ -7,6 +7,9 @@ public class GameManager : MonoBehaviour {
 	[Header("Dynamic")]
 	[SerializeField]
 	private bool movementLock=false;
+	[SerializeField]
+	private bool isAttacking;
+	private Basic2DMovement _player;
 	public static GameManager S {
 		get {
 			if (_S == null) {
@@ -25,10 +28,20 @@ public class GameManager : MonoBehaviour {
 
 	void Awake () {
 		_S = this;
+		_player = GameObject.FindGameObjectWithTag ("Player").GetComponent<Basic2DMovement>();
+	}
+
+	public static void SET_PLAYER_STATE(Basic2DMovement.PlayerState playerState) {
+		S._player.playerState = playerState;
 	}
 
 	public static bool MOVEMENT_LOCK {
 		get { return S.movementLock;}
 		set {S.movementLock = value;}
+	}
+
+	public static bool IS_ATTACK {
+		get { return S.isAttacking;}
+		set {S.isAttacking = value;}		
 	}
 }

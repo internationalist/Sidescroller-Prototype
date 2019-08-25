@@ -10,16 +10,25 @@ public class Basic2DMovement : MonoBehaviour {
 	public float jumpSpeed;
 	public float gravity;
 	public float groundedDistance;
+	public float jumpCoolDown = .2f;
 	[Header("Dynamic")]
 	[SerializeField]
 	private Vector3 moveDirection;
 	private float currentMovement;
 	private float previousMovement;
 	private Animator anim;
+	private float lastJumped;
 	[SerializeField]
 	private bool isGrounded;
 	[SerializeField]
 	private float distanceToGround;
+
+	//Player action states
+	public enum PlayerState {
+		idle, movement, lightattack, heavyattack, jump, airborne, crouch
+	}
+	public PlayerState playerState;
+
 	// Use this for initialization
 	void Start () {
 		player = GetComponent<CharacterController>();
@@ -27,28 +36,87 @@ public class Basic2DMovement : MonoBehaviour {
 		if (anim == null) {
 			Debug.LogError ("Animator could not be obtained");
 		}
+		playerState = PlayerState.idle;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		anim.SetBool ("jump", !IsGrounded ());
-		if (!GameManager.MOVEMENT_LOCK) {
-			if (IsGrounded ()) {
-				CalculateMovement ();
-				ExecuteJump ();
-				ExecuteLightAttack ();
+		//evaluate current state.
+		IsGrounded ();
+		EvaluateState ();
+		switch (playerState) {
+		case PlayerState.crouch:
+				Crouch ();
+				break;
+			case PlayerState.heavyattack:
 				ExecuteHeavyAttack ();
+				break;
+			case PlayerState.lightattack:
+				ExecuteLightAttack ();
+				break;
+			case PlayerState.idle:
+				CalculateMovement ();
+				break;
+		case PlayerState.jump:
+				ExecuteJump ();
+				player.Move (moveDirection * Time.deltaTime);
+				//ExecuteMovementWithGravity ();
+				break;
+		case PlayerState.movement:
+				CalculateMovement ();
+				if (!GameManager.MOVEMENT_LOCK) {
+					ExecuteMovementWithGravity ();
+				}
+				break;
+			case PlayerState.airborne:
+				ExecuteMovementWithGravity ();
+				break;
+			default:
+				break;		
+		}
+		anim.SetBool ("jump", !IsGrounded());
+	}
+
+	void EvaluateState ()
+	{
+		if (Input.GetButtonDown ("Jump") && isGrounded) {
+			//if (Time.realtimeSinceStartup - lastJumped > jumpCoolDown) {
+				playerState = PlayerState.jump;
+				//lastJumped = Time.realtimeSinceStartup;
+			//}
+		} else if (!isGrounded) {
+			playerState = PlayerState.airborne;
+		} else if (playerState.Equals (PlayerState.idle) || playerState.Equals (PlayerState.movement)) {
+			if (Input.GetButton ("Crouch")) {
+				playerState = PlayerState.crouch;
+			} else if (Input.GetMouseButtonDown (0)) {
+				Debug.Log ("State becomes light attack");
+				playerState = PlayerState.lightattack;
+			} else if (Input.GetMouseButtonDown (1)) {
+				Debug.Log ("State becomes heavy attack");
+				playerState = PlayerState.heavyattack;
+			} else if (Input.GetAxis ("Horizontal") != 0) {
+				playerState = PlayerState.movement;
+			} else {
+				playerState = PlayerState.idle;
 			}
-			ExecuteMovementWithGravity ();
+		} else {
+			playerState = PlayerState.idle;
 		}
 	}
 		
 	//Private methods below
+	void Crouch() {
+		if (Input.GetButton ("Crouch")) {
+			anim.SetBool ("crouch", true);
+		}
+	}
 	void ExecuteMovementWithGravity ()
 	{
-		moveDirection.y -= gravity * Time.deltaTime;
-		player.Move (moveDirection * Time.deltaTime);
-		previousMovement = currentMovement;
+		player.Move (moveDirection * Time.deltaTime);		
+		if (!isGrounded) {
+			moveDirection.y -= gravity * Time.deltaTime;
+		}
 	}
 
 	void ExecuteHeavyAttack ()
@@ -67,7 +135,8 @@ public class Basic2DMovement : MonoBehaviour {
 
 	void ExecuteJump ()
 	{
-		if (Input.GetButtonDown ("Jump") && distanceToGround <= player.center.y) {
+		//if (Input.GetButtonDown ("Jump") && distanceToGround <= player.center.y) {
+		if (isGrounded) {
 			moveDirection.y = jumpSpeed;
 		}
 	}
@@ -77,8 +146,13 @@ public class Basic2DMovement : MonoBehaviour {
 		currentMovement = Input.GetAxis ("Horizontal");
 		anim.SetFloat ("movement", Mathf.Abs (currentMovement));
 		CheckForTurn ();
-		moveDirection = new Vector3 (currentMovement * -1, 0, 0);
-		moveDirection *= moveSpeed;
+		if (moveDirection == null) {
+			moveDirection = new Vector3 (currentMovement * -1 * moveSpeed, 0, 0);
+		} else {
+			moveDirection.x = currentMovement * -1 * moveSpeed;
+		}
+		//moveDirection *= moveSpeed;
+		previousMovement = currentMovement;
 	}
 
 	bool IsGrounded ()
@@ -87,7 +161,7 @@ public class Basic2DMovement : MonoBehaviour {
 		if (Physics.Raycast (transform.position + new Vector3 (0, .1f), -transform.up, out hit, Mathf.Infinity)) {
 			Debug.DrawRay (transform.position + new Vector3 (0, .1f), -transform.up * hit.distance, Color.red);
 			distanceToGround = hit.distance;
-			isGrounded = hit.distance <= groundedDistance;
+			isGrounded = distanceToGround <= groundedDistance;
 		}
 		else {
 			Debug.DrawRay (transform.position, -transform.up * 1000, Color.yellow);
