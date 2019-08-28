@@ -10,18 +10,20 @@ public class Basic2DMovement : MonoBehaviour {
 	public float jumpSpeed;
 	public float gravity;
 	public float groundedDistance;
-	public float jumpCoolDown = .2f;
+    public float defaultControllerHeight;
+    public float defaultControlleryPos;
 	[Header("Dynamic")]
 	[SerializeField]
 	private Vector3 moveDirection;
 	private float currentMovement;
 	private float previousMovement;
 	private Animator anim;
-	private float lastJumped;
 	[SerializeField]
 	private bool isGrounded;
 	[SerializeField]
 	private float distanceToGround;
+    [SerializeField]
+    private bool isAttacking;
 
 	//Player action states
 	public enum PlayerState {
@@ -29,9 +31,43 @@ public class Basic2DMovement : MonoBehaviour {
 	}
 	public PlayerState playerState;
 
-	// Use this for initialization
-	void Start () {
+    public bool IsAttacking
+    {
+        get
+        {
+            return isAttacking;
+        }
+
+        set
+        {
+            isAttacking = value;
+        }
+    }
+    /// <summary>
+    /// Can be called to modify the height and y position of the controller, in case character is bending or crouching.
+    /// </summary>
+    /// <param name="height"></param>
+    /// <param name="yPos"></param>
+    public void ModifyControllerSize(float height, float yPos)
+    {
+        Vector3 centerPosition = player.center;
+        centerPosition.y = yPos;
+        player.center = centerPosition;
+        player.height = height;
+    }
+
+    public void ResetControllerSize() {
+        Vector3 centerPosition = player.center;
+        centerPosition.y = defaultControlleryPos;
+        player.center = centerPosition;
+        player.height = defaultControllerHeight;
+    }
+
+    // Use this for initialization
+    void Start () {
+        GameManager.RegisterHumanoidEntity(gameObject, this);
 		player = GetComponent<CharacterController>();
+        ResetControllerSize();
 		anim = player.GetComponentInChildren<Animator> ();
 		if (anim == null) {
 			Debug.LogError ("Animator could not be obtained");
@@ -60,13 +96,10 @@ public class Basic2DMovement : MonoBehaviour {
 		case PlayerState.jump:
 				ExecuteJump ();
 				player.Move (moveDirection * Time.deltaTime);
-				//ExecuteMovementWithGravity ();
 				break;
 		case PlayerState.movement:
 				CalculateMovement ();
-				if (!GameManager.MOVEMENT_LOCK) {
-					ExecuteMovementWithGravity ();
-				}
+				ExecuteMovementWithGravity ();
 				break;
 			case PlayerState.airborne:
 				ExecuteMovementWithGravity ();
@@ -79,37 +112,34 @@ public class Basic2DMovement : MonoBehaviour {
 
 	void EvaluateState ()
 	{
-		if (Input.GetButtonDown ("Jump") && isGrounded) {
-			//if (Time.realtimeSinceStartup - lastJumped > jumpCoolDown) {
-				playerState = PlayerState.jump;
-				//lastJumped = Time.realtimeSinceStartup;
-			//}
-		} else if (!isGrounded) {
-			playerState = PlayerState.airborne;
-		} else if (playerState.Equals (PlayerState.idle) || playerState.Equals (PlayerState.movement)) {
-			if (Input.GetButton ("Crouch")) {
+        if (IsAttacking) {
+            return;
+        }
+        if (Input.GetButtonDown("Jump") && isGrounded)
+        {
+            playerState = PlayerState.jump;
+        }
+        else if (!isGrounded)
+        {
+            playerState = PlayerState.airborne;
+        } else if (Input.GetButton ("Crouch")) {
 				playerState = PlayerState.crouch;
-			} else if (Input.GetMouseButtonDown (0)) {
-				Debug.Log ("State becomes light attack");
+		} else if (Input.GetMouseButtonDown (0)) {
 				playerState = PlayerState.lightattack;
-			} else if (Input.GetMouseButtonDown (1)) {
-				Debug.Log ("State becomes heavy attack");
+		} else if (Input.GetMouseButtonDown (1)) {
 				playerState = PlayerState.heavyattack;
-			} else if (Input.GetAxis ("Horizontal") != 0) {
+		} else if (Input.GetAxis ("Horizontal") != 0) {
 				playerState = PlayerState.movement;
-			} else {
-				playerState = PlayerState.idle;
-			}
 		} else {
-			playerState = PlayerState.idle;
+				playerState = PlayerState.idle;
 		}
 	}
 		
 	//Private methods below
 	void Crouch() {
-		if (Input.GetButton ("Crouch")) {
+		//if (Input.GetButton ("Crouch")) {
 			anim.SetBool ("crouch", true);
-		}
+        //}
 	}
 	void ExecuteMovementWithGravity ()
 	{

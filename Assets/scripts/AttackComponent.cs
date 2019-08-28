@@ -12,7 +12,8 @@ public class AttackComponent : MonoBehaviour {
 		Debug.Log ("attack landed");
 		//Debug.DrawRay (transform.position, transform.forward*5, Color.red);
 		hitLanded = true;
-		if (GameManager.IS_ATTACK) {
+        
+		if (GameManager.IsAtacking(player.gameObject)) {
 			other.attachedRigidbody.AddForceAtPosition (transform.position, player.right * hitForce);
 		}
 	}

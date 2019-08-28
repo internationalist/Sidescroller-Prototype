@@ -6,6 +6,7 @@ public class JumpStateBehaviour : StateMachineBehaviour {
 
 	// OnStateExit is called when a transition ends and the state machine finishes evaluating this state
 	override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-		GameManager.SET_PLAYER_STATE (Basic2DMovement.PlayerState.idle);
+        GameObject owner = animator.transform.parent.gameObject;
+		GameManager.SET_PLAYER_STATE (owner, Basic2DMovement.PlayerState.idle);
 	}
 }
