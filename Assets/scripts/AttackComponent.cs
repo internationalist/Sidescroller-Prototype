@@ -9,12 +9,12 @@ public class AttackComponent : MonoBehaviour {
 
 	void OnTriggerEnter(Collider other)
 	{
-		Debug.Log ("attack landed");
+		//Debug.Log ("attack landed");
 		//Debug.DrawRay (transform.position, transform.forward*5, Color.red);
 		hitLanded = true;
         
 		if (GameManager.IsAtacking(player.gameObject)) {
-			other.attachedRigidbody.AddForceAtPosition (transform.position, player.right * hitForce);
+			//other.attachedRigidbody.AddForceAtPosition (transform.position, player.right * hitForce);
 		}
 	}
 	public void Update() {
