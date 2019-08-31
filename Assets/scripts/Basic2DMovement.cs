@@ -77,9 +77,10 @@ public class Basic2DMovement : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		//evaluate current state.
+        //caclulate if character is grounded.
 		IsGrounded ();
-		EvaluateState ();
+        //evaluate current state.
+        EvaluateState();
 		switch (playerState) {
 		case PlayerState.crouch:
 				Crouch ();
@@ -112,9 +113,14 @@ public class Basic2DMovement : MonoBehaviour {
 
 	void EvaluateState ()
 	{
-        if (IsAttacking) {
+        if(anim.GetBool("crouch")) //do nothing the crouch state machine behaviour is responsible for exiting crouch baesd upon user input.
+        {
             return;
         }
+        if (IsAttacking) {//do nothing. Attack state will exit when animation finishes and will be triggered by the state machine behaviour.
+            return;
+        }
+        //User input based state changes.
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
             playerState = PlayerState.jump;
@@ -137,9 +143,7 @@ public class Basic2DMovement : MonoBehaviour {
 		
 	//Private methods below
 	void Crouch() {
-		//if (Input.GetButton ("Crouch")) {
-			anim.SetBool ("crouch", true);
-        //}
+		anim.SetBool ("crouch", true);
 	}
 	void ExecuteMovementWithGravity ()
 	{
@@ -149,18 +153,20 @@ public class Basic2DMovement : MonoBehaviour {
 		}
 	}
 
-	void ExecuteHeavyAttack ()
-	{
-		if (Input.GetMouseButtonDown (1)) {
-			anim.SetTrigger ("kick");
-		}
+    void ExecuteHeavyAttack()
+    {
+        if (!isAttacking)//This makes sure attacks happen at a time
+        {
+            anim.SetTrigger("kick");
+        }
 	}
 
 	void ExecuteLightAttack ()
 	{
-		if (Input.GetMouseButtonDown (0)) {
-			anim.SetTrigger ("punch");
-		}
+        if(!isAttacking)//This makes sure attacks happen at a time
+        {
+            anim.SetTrigger("punch");
+        }
 	}
 
 	void ExecuteJump ()

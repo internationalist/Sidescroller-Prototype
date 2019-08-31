@@ -4,11 +4,17 @@ using UnityEngine;
 
 public class CrouchStateBehaviour : StateMachineBehaviour {
 
-	// OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
-	override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        GameObject owner = animator.transform.parent.gameObject;
-        GameManager.SET_PLAYER_STATE(owner, Basic2DMovement.PlayerState.crouch);
-        GameManager.SetControllerSize(owner,1.2f, .66f);
+    private Basic2DMovement movementComponent;
+
+    // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
+    override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+        if (movementComponent == null)
+        {
+            GameObject owner = animator.transform.parent.gameObject;
+            movementComponent = owner.GetComponent<Basic2DMovement>();
+        }
+        movementComponent.playerState = Basic2DMovement.PlayerState.crouch;
+        movementComponent.ModifyControllerSize(1.2f, .66f);
     }
 
 	override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
@@ -19,8 +25,7 @@ public class CrouchStateBehaviour : StateMachineBehaviour {
 
 	// OnStateExit is called when a transition ends and the state machine finishes evaluating this state
 	override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        GameObject owner = animator.transform.parent.gameObject;
-        GameManager.ResetControllerSize(owner);
-        GameManager.SET_PLAYER_STATE (owner, Basic2DMovement.PlayerState.idle);
+        movementComponent.ResetControllerSize();
+        movementComponent.playerState = Basic2DMovement.PlayerState.idle;
 	}
 }

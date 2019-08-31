@@ -4,18 +4,32 @@ using UnityEngine;
 
 public class LightAttackStateBehaviour : StateMachineBehaviour {
 
-	 // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
-	override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        GameObject owner = animator.transform.parent.gameObject;
-        GameManager.SetAtacking(owner, true);
-        GameManager.SET_PLAYER_STATE(owner, Basic2DMovement.PlayerState.lightattack);
+    private Basic2DMovement movementComponent;
+
+    // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
+    override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+        if (movementComponent == null)
+        {
+            GameObject owner = animator.transform.parent.gameObject;
+            movementComponent = owner.GetComponent<Basic2DMovement>();
+        }
+        movementComponent.IsAttacking = true;
+        movementComponent.playerState = Basic2DMovement.PlayerState.lightattack;
+        animator.SetBool("heavy2light", false);
     }
 
-	// OnStateExit is called when a transition ends and the state machine finishes evaluating this state
-	override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
-        GameObject owner = animator.transform.parent.gameObject;
-        GameManager.SetAtacking(owner, false);
-		GameManager.SET_PLAYER_STATE (owner, Basic2DMovement.PlayerState.idle);
+    // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
+    override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+        if (Input.GetMouseButtonDown(1))
+        {
+            movementComponent.playerState = Basic2DMovement.PlayerState.heavyattack;
+            animator.SetBool("light2heavy", true);
+        }
+    }
+
+    // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
+    override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+        movementComponent.IsAttacking = false;
+		movementComponent.playerState = Basic2DMovement.PlayerState.idle;
 	}
-		
 }
