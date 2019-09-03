@@ -649,6 +649,7 @@ GameObject:
   - component: {fileID: 1637595708}
   - component: {fileID: 1637595709}
   - component: {fileID: 1637595710}
+  - component: {fileID: 1637595711}
   m_Layer: 10
   m_Name: Enemy
   m_TagString: Untagged
@@ -699,6 +700,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 2001020528}
+  isColliding: 0
 --- !u!65 &1637595710
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -711,6 +713,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.7, y: 1.8, z: 0.8}
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &1637595711
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1637595706}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09506d855a5ef1741b6a6696dfc52165, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyState: 0
 --- !u!1 &1679920926 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 100002, guid: 44471e792894e634ea2f84e6bf40f10f, type: 3}
@@ -775,7 +789,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114843113198444818, guid: a2e61fea46f68e347969b51905b977f0, type: 2}
+    - {fileID: 114653506480938970, guid: a2e61fea46f68e347969b51905b977f0, type: 2}
+    - {fileID: 114148315164105476, guid: a2e61fea46f68e347969b51905b977f0, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: a2e61fea46f68e347969b51905b977f0, type: 2}
   m_IsPrefabParent: 0
 --- !u!1 &1972269279
@@ -1824,6 +1841,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
+  isColliding: 0
 --- !u!54 &2102089481
 Rigidbody:
   m_ObjectHideFlags: 0

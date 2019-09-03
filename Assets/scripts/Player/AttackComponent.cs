@@ -19,7 +19,7 @@ public class AttackComponent : MonoBehaviour {
 	}
 	public void Update() {
 		if (hitLanded) {
-			Debug.DrawRay (transform.position, player.right*5, Color.red);		
+			//Debug.DrawRay (transform.position, player.right*5, Color.red);		
 		}
 	}
 }

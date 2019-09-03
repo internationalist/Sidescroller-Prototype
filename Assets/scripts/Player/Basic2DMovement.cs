@@ -76,7 +76,7 @@ public class Basic2DMovement : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void FixedUpdate () {
         //caclulate if character is grounded.
 		IsGrounded ();
         //evaluate current state.
