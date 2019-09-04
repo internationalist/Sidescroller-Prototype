@@ -26,7 +26,13 @@ public class AIIdleStateBehaviour : StateMachineBehaviour {
             if(hit.distance < 1)
             {
                 Debug.DrawRay(owner.transform.position + new Vector3(0, 1f), owner.transform.forward * hit.distance, Color.red);
-                aiScript.enemyState = AIScript.AIWarriorStates.lightattack;
+                if(!aiScript.IsAttacking)
+                {
+                    aiScript.enemyState = AIScript.AIWarriorStates.lightattack;
+                    Debug.Log("triggering attack");
+                    animator.SetTrigger("lightattack");
+                    aiScript.IsAttacking = true;
+                }
             } else
             {
                 Debug.DrawRay(owner.transform.position + new Vector3(0, 1f), owner.transform.forward * hit.distance, Color.yellow);

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TargetComponent : MonoBehaviour {
     private Animator anim;
-    public Basic2DMovement player;
+    public Basic2DMovement opponent;
     [SerializeField]
     bool isColliding;
 
@@ -16,7 +16,7 @@ public class TargetComponent : MonoBehaviour {
 
     public void Update()
     {
-        if(!player.IsAttacking)
+        if(!opponent.IsAttacking)
         {
             isColliding = false;
         }
@@ -27,9 +27,9 @@ public class TargetComponent : MonoBehaviour {
 	{
         if (isColliding) return;
         isColliding = true;
-        if(player.IsAttacking)
+        if(opponent.IsAttacking)
         {
-            if(player.playerState.Equals(Basic2DMovement.PlayerState.lightattack))
+            if(opponent.playerState.Equals(Basic2DMovement.PlayerState.lightattack))
             {
                 anim.SetTrigger("stomachhit");
             } else

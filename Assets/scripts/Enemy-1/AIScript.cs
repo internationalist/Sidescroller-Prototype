@@ -4,14 +4,31 @@ using UnityEngine;
 
 public class AIScript : MonoBehaviour {
 
+    [SerializeField]
+    private bool isAttacking;
+
     public enum AIWarriorStates
     {
         idle, lightattack, heavyattack
     }
 
     public AIWarriorStates enemyState;
-	// Use this for initialization
-	void Start () {
+
+    public bool IsAttacking
+    {
+        get
+        {
+            return isAttacking;
+        }
+
+        set
+        {
+            isAttacking = value;
+        }
+    }
+
+    // Use this for initialization
+    void Start () {
 		
 	}
 	
