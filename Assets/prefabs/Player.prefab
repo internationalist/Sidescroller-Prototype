@@ -824,7 +824,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4247534875154824}
   - component: {fileID: 135064689074858560}
-  - component: {fileID: 114148315164105476}
   m_Layer: 9
   m_Name: lefthand
   m_TagString: Untagged
@@ -2233,20 +2232,6 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &114148315164105476
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1673741529813104}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef4ad2c6d70f04a8886148c8b6d6acd6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hitLanded: 0
-  player: {fileID: 4222235082100386}
-  hitForce: 0
 --- !u!114 &114345005495816446
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2286,17 +2271,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b92e9c7df62b41f6835deb3c7bf21e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isAttacking: 0
+  playerState: 0
   moveSpeed: 3
   jumpSpeed: 3.8
   gravity: 9.8
   groundedDistance: 0.15
   defaultControllerHeight: 1.6
   defaultControlleryPos: 0.88
+  retreatSpeed: 0
   moveDirection: {x: 0, y: 0, z: 0}
   isGrounded: 0
   distanceToGround: 0
-  isAttacking: 0
-  playerState: 0
 --- !u!114 &114843113198444818
 MonoBehaviour:
   m_ObjectHideFlags: 1
