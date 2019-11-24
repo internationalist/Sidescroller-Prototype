@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - weapon
+  - Menu
   layers:
   - Default
   - TransparentFX
@@ -19,7 +20,7 @@ TagManager:
   - hittable
   - enemyweapon
   - enemy
-  - 
+  - fallzone
   - 
   - 
   - 
@@ -41,4 +42,13 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Background
+    uniqueID: 2924830795
+    locked: 0
+  - name: Foreground
+    uniqueID: 3964707837
+    locked: 0
+  - name: UI
+    uniqueID: 2906797645
     locked: 0
