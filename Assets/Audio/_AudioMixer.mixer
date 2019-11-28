@@ -3,8 +3,9 @@
 --- !u!241 &24100000
 AudioMixerController:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_Name: _AudioMixer
   m_OutputGroup: {fileID: 0}
   m_MasterGroup: {fileID: 24300002}
@@ -28,8 +29,9 @@ AudioMixerController:
 --- !u!243 &24300002
 AudioMixerGroupController:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_Name: Master
   m_AudioMixer: {fileID: 24100000}
   m_GroupID: f460ac68971453a4ebbc29b9abb18893
@@ -48,8 +50,9 @@ AudioMixerGroupController:
 --- !u!244 &24400004
 AudioMixerEffectController:
   m_ObjectHideFlags: 3
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_Name: 
   m_EffectID: f9f281cf49ae2904b96e2b5c253a1afb
   m_EffectName: Attenuation
@@ -61,8 +64,9 @@ AudioMixerEffectController:
 --- !u!243 &243014670302950972
 AudioMixerGroupController:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_Name: Footsteps
   m_AudioMixer: {fileID: 24100000}
   m_GroupID: 477705e97dbde42419ceb2c55ed486b8
@@ -78,8 +82,9 @@ AudioMixerGroupController:
 --- !u!243 &243628300750527306
 AudioMixerGroupController:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_Name: DamageSound
   m_AudioMixer: {fileID: 24100000}
   m_GroupID: 61c2cf6e265cafe4abee75f11ef47761
@@ -95,8 +100,9 @@ AudioMixerGroupController:
 --- !u!243 &243960374157248092
 AudioMixerGroupController:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_Name: Combatsound
   m_AudioMixer: {fileID: 24100000}
   m_GroupID: a594aed8465f7d144b7e8e99228b9a95
@@ -112,8 +118,9 @@ AudioMixerGroupController:
 --- !u!244 &244627640382072146
 AudioMixerEffectController:
   m_ObjectHideFlags: 3
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_Name: 
   m_EffectID: 00c4c9e7793729b47aa17b6857f2a9ce
   m_EffectName: Attenuation
@@ -125,8 +132,9 @@ AudioMixerEffectController:
 --- !u!244 &244872589646662038
 AudioMixerEffectController:
   m_ObjectHideFlags: 3
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_Name: 
   m_EffectID: 729891e156ca1a44aad8dffa82f7d4dd
   m_EffectName: Attenuation
@@ -138,8 +146,9 @@ AudioMixerEffectController:
 --- !u!244 &244904054353204260
 AudioMixerEffectController:
   m_ObjectHideFlags: 3
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_Name: 
   m_EffectID: 521ba83abc1136c4c91e147c7af678df
   m_EffectName: Attenuation
@@ -151,22 +160,24 @@ AudioMixerEffectController:
 --- !u!245 &245511208306735212
 AudioMixerSnapshotController:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_Name: Snapshot - Copy
   m_AudioMixer: {fileID: 24100000}
   m_SnapshotID: b8f157607ef834e4ca0cb818a135a0c7
   m_FloatValues:
-    b96447d3f83cdc14885d86134781e23f: -19.928473
-    b25464d5c28b7cd4780df2041dfcf471: -10.867776
-    dad9db06037c48d4a94d4860aea67b2a: -14.816608
-    0568faaca50812341a8038987247348e: -4.9356413
+    b96447d3f83cdc14885d86134781e23f: -13.637256
+    b25464d5c28b7cd4780df2041dfcf471: -10.345207
+    dad9db06037c48d4a94d4860aea67b2a: -2.8722944
+    0568faaca50812341a8038987247348e: -10.345207
   m_TransitionOverrides: {}
 --- !u!245 &245554249191376070
 AudioMixerSnapshotController:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_Name: Snapshot - Copy - Copy
   m_AudioMixer: {fileID: 24100000}
   m_SnapshotID: 4702b65ee0effa04287d8c69759a05ad

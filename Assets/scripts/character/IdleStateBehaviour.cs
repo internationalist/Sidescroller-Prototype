@@ -78,7 +78,10 @@ public class IdleStateBehaviour : StateComponent
         }
         else if (entityInput.ActivateBlock())
         {
-            movementComponent.playerState = Basic2DMovement.PlayerState.block;
+            if(movementComponent.CanBlock())
+            {
+                movementComponent.playerState = Basic2DMovement.PlayerState.block;
+            }
         }
         else if (entityInput.ActivateLightAttack())
         {

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EntityStates : MonoBehaviour {
     [SerializeField]
-    protected bool isAttacking;
+    public bool isAttacking;
 
     public float attackRange;
     public float spotRange;
@@ -12,11 +12,16 @@ public class EntityStates : MonoBehaviour {
     public int lightAttack;
     public int heavyAttack;
     public int maxHealth;
+    public int maxStamina;
+    public int staminaGainPerSecond;
     public float distanceToEnemy;
     public EntityStates opponent;
     public bool enemyFound;
     public string id;
     public bool ladderInRange;
+    public bool isGrounded;
+    public bool isOnEdge;
+    //public bool isBlocking;
 
 
     //Player action states

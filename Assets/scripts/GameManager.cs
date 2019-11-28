@@ -7,7 +7,7 @@ using UnityEngine.Audio;
 
 public class GameManager : MonoBehaviour {
 	private static GameManager _S;
-	private Basic2DMovement _player;
+	//private Basic2DMovement _player;
     private Dictionary<GameObject, Basic2DMovement> humanoidEntityCache;
     private bool _paused = false;
     public bool gameOver;
@@ -41,7 +41,6 @@ public class GameManager : MonoBehaviour {
 	void Awake () {
         this.humanoidEntityCache = new Dictionary<GameObject, Basic2DMovement>();
 		_S = this;
-		_player = GameObject.FindGameObjectWithTag ("Player").GetComponent<Basic2DMovement>();
         gameStateText = menupanel.GetComponentInChildren<Text>();
         ambientSoundSource = GetComponent<AudioSource>();
     }

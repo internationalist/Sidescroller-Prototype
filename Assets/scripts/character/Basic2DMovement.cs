@@ -18,8 +18,6 @@ public class Basic2DMovement : EntityStates {
     public float defaultControlleryPos;
     public float retreatSpeed;
     public int enemyLayer;
-    [SerializeField]
-    private float health;
     private bool dead = false;
     [Header("Dynamic")]
 	[SerializeField]
@@ -27,14 +25,15 @@ public class Basic2DMovement : EntityStates {
 	public float currentMovement;
 	private float previousMovement;
 	private Animator anim;
-	public bool isGrounded;
-    public bool isOnEdge;
     public Image healthBar;
-	[SerializeField]
+    public Image staminaBar;
+    [SerializeField]
 	private float distanceToGround;
     public ParticleSystem trails;
     public AudioClip deathSound;
     public AudioSource[] audioSources;
+    public float health;
+    public float stamina;
 
 
     public EntityInputAbstract Input
@@ -95,6 +94,7 @@ public class Basic2DMovement : EntityStates {
         }
         playerState = PlayerState.idle;
         health = maxHealth;
+        stamina = maxStamina;
         targetComponent = GetComponent<TargetComponent>();
     }
     // Update is called once per frame
@@ -102,6 +102,28 @@ public class Basic2DMovement : EntityStates {
     {
         currentMovement = -1*Input.MovementAmount();
 
+        if(!this.IsAttacking)
+        {
+            StaminaGain();
+
+        }
+    }
+
+    private void StaminaGain()
+    {
+        float staminaGain = staminaGainPerSecond * Time.deltaTime;
+        if (maxStamina - stamina > staminaGain)
+        {
+            this.stamina += staminaGain;
+        }
+        else
+        {
+            this.stamina = maxStamina;
+        }
+        if(staminaBar != null)
+        {
+            staminaBar.fillAmount = this.stamina / maxStamina;
+        }
     }
 
 
@@ -230,22 +252,51 @@ public class Basic2DMovement : EntityStates {
 
     public void ExecuteHeavyAttack()
     {
-        if (!isAttacking)
+        if (!isAttacking && stamina > 20)
         {
             GameManager.S.actionRegister = 1;
+            UseStamina(20);
+
             anim.SetTrigger("kick");
         }
-	}
+    }
+
+    public void UseStamina(int staminaExpended)
+    {
+        if (this.stamina > staminaExpended)
+        {
+            this.stamina -= staminaExpended;
+        }
+        else
+        {
+            this.stamina = 0;
+        }
+        if (staminaBar != null)
+        {
+            staminaBar.fillAmount = this.stamina / maxStamina;
+        }
+    }
 
     public void ExecuteLightAttack ()
 	{
-        //if(!isAttacking && GameManager.S.actionRegister==0)//This makes sure attacks happen one at a time
-        if (!isAttacking)
+        if (!isAttacking && stamina > 15)
         {
             GameManager.S.actionRegister = 1;
+            UseStamina(15);
             anim.SetTrigger("punch");
         }
 	}
+
+    public bool CanBlock()
+    {
+        if(stamina > 5)
+        {
+            UseStamina(1);
+            anim.SetBool("block", true);
+            return true;
+        }
+        return false;
+    }
 
     public void ExecuteJump ()
 	{

@@ -18,6 +18,11 @@ public class BlockStateBehaviour : StateMachineBehaviour {
 
     }
 
+    public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+        base.OnStateExit(animator, stateInfo, layerIndex);
+    }
+
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
         if (entityInput.ActivateDash())
@@ -26,18 +31,30 @@ public class BlockStateBehaviour : StateMachineBehaviour {
             animator.SetBool("dash", true);
         }
         else if (entityInput.ActivateLightAttack()) {
-            animator.SetBool("block", false);
-            animator.SetTrigger("punch");
+            ExecuteAttack("punch", animator);
         }
         else if (entityInput.ActivateHeavyAttack())
         {
-            animator.SetBool("block", false);
-            animator.SetTrigger("kick");
+            ExecuteAttack("kick", animator);
         }
         else if (!entityInput.ActivateBlock())
         {
             animator.SetBool("block", false);
             movementComponent.playerState = Basic2DMovement.PlayerState.idle;
+        } else
+        {
+            movementComponent.playerState = Basic2DMovement.PlayerState.block;
+        }
+    }
+
+    public void ExecuteAttack(string attack, Animator animator)
+    {
+        if (!movementComponent.isAttacking && movementComponent.stamina > 15)
+        {
+            animator.SetBool("block", false);
+            GameManager.S.actionRegister = 1;
+            movementComponent.UseStamina(15);
+            animator.SetTrigger(attack);
         }
     }
 

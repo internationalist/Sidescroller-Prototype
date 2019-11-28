@@ -19,6 +19,7 @@ public class TargetComponent : MonoBehaviour {
     public AudioClip hurtsound;
 
     public AudioClip blockSound;
+    public GameObject blockText;
 
 
 
@@ -50,9 +51,9 @@ public class TargetComponent : MonoBehaviour {
             isColliding = true;
             if (entity.opponent.IsAttacking && !entity.playerState.Equals(EntityStates.PlayerState.block))
             {
-                Vector3 effectPos = new Vector3(other.transform.position.x, other.transform.position.y);
                 if (entity.opponent.playerState.Equals(EntityStates.PlayerState.lightattack))
                 {
+                    anim.SetBool("block", false);
                     GameManager.PlayAttackSound(punchsound, entity.audioSources[0]);
                     anim.SetTrigger("lighthit");
                     lightHitEffect.Play();
@@ -61,6 +62,7 @@ public class TargetComponent : MonoBehaviour {
                 }
                 else
                 {
+                    anim.SetBool("block", false);
                     GameManager.PlayAttackSound(kicksound, entity.audioSources[0]);
                     anim.SetTrigger("heavyhit");
                     heavyHitEffect.Play();
@@ -74,7 +76,14 @@ public class TargetComponent : MonoBehaviour {
                 GameManager.PlayAttackSound(blockSound, entity.audioSources[0]);
                 anim.SetTrigger("blockreact");
                 blockEffect.Play();
-                Vector3 effectPos = new Vector3(transform.position.x + transform.right.x*.3f, transform.position.y + 2f);
+                Vector3 effectPos = new Vector3(transform.position.x + transform.right.x*.3f, transform.position.y + 3f);
+                if(blockText != null)
+                {
+                    GameObject blockTextInstance = Instantiate(blockText, effectPos, Quaternion.identity);
+                    blockTextInstance.GetComponent<Renderer>().sortingLayerName = "Foreground";
+                    FloatingText text = blockTextInstance.GetComponent<FloatingText>();
+                    text.SetText("Blocked!");
+                }
                 blockOver = true;
             }
         }

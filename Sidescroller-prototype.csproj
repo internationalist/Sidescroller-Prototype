@@ -194,9 +194,6 @@
     <Reference Include="UnityEngine.WindModule">
       <HintPath>C:/Unity-LTS/Editor/Data/Managed/UnityEngine/UnityEngine.WindModule.dll</HintPath>
     </Reference>
-    <Reference Include="Assembly-CSharp-firstpass">
-      <HintPath>Library/ScriptAssemblies/Assembly-CSharp-firstpass.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEngine.UI">
       <HintPath>C:/Unity-LTS/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
     </Reference>
@@ -235,10 +232,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\DashStateBehaviour.cs" />
-    <Compile Include="Assets\External_Assets\The Amazing Impact VFX\Sample Scene\ButtonAnimation.cs" />
-    <Compile Include="Assets\External_Assets\The Amazing Impact VFX\Sample Scene\SampleManager.cs" />
-    <Compile Include="Assets\External_Assets\The Amazing Impact VFX\Sample Scene\SelfDestruct.cs" />
     <Compile Include="Assets\scripts\ai\AIInput.cs" />
     <Compile Include="Assets\scripts\audio\AudioFootstepCollider.cs" />
     <Compile Include="Assets\scripts\audio\AudioFootstepSoundsScriptableObject.cs" />
@@ -262,6 +255,7 @@
     <Compile Include="Assets\scripts\character\SelfDestruct.cs" />
     <Compile Include="Assets\scripts\character\StateComponent.cs" />
     <Compile Include="Assets\scripts\character\TargetComponent.cs" />
+    <Compile Include="Assets\scripts\DashStateBehaviour.cs" />
     <Compile Include="Assets\scripts\GameManager.cs" />
     <Compile Include="Assets\scripts\scriptableobjects\AttackStatsScriptableObject.cs" />
     <Compile Include="Assets\scripts\scriptableobjects\HealthStatsScriptableObject.cs" />
