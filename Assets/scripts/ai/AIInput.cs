@@ -40,7 +40,12 @@ public class AIInput : EntityInputAbstract
         else if(player.enemyFound && distanceToEnemy < player.spotRange)
         {
             ResetAttack();
-            movementAmount = Mathf.SmoothStep(movementAmount, Vector3.Dot(transform.right, Vector3.right), .17f);
+            float transitionSpeed = .17f;
+            if(distanceToEnemy < 1.2f)
+            {
+                transitionSpeed = .08f;
+            }
+            movementAmount = Mathf.SmoothStep(movementAmount, Vector3.Dot(transform.right, Vector3.right), transitionSpeed);
         } else
         {
             ResetAttack();
@@ -74,13 +79,13 @@ public class AIInput : EntityInputAbstract
                 }
                 break;
             case ActionType.BLOCK:
-                if (player.opponent.IsAttacking)
+                if (player.Opponent.IsAttacking)
                 {
                     block = true;
                 }
                 break;
         }
-        if (!player.opponent.IsAttacking)
+        if (!player.Opponent.IsAttacking)
         {
             block = false;
         }
@@ -133,16 +138,12 @@ public class AIInput : EntityInputAbstract
 
     public override float MovementAmount()
     {
-       /* if((GameManager.GetDistanceToEnemy(8, transform) < .9f) && !block)
-        {
-            return -.5f;
-        }*/
         return movementAmount;
     }
 
     private ActionType GetActionType(ActionType[] actionArray, float[] probArray)
     {
-        int retValue = 0;
+        /*int retValue = 0;
         float total = 0;
         foreach (int element in probArray)
         {
@@ -161,7 +162,8 @@ public class AIInput : EntityInputAbstract
                 randomPoint -= probArray[i];
             }
         }
-        return actionArray[retValue];
+        return actionArray[retValue];*/
+        return UtilityStatic.getOutCome(actionArray, probArray);
     }
 
     public override bool ActivateDash()

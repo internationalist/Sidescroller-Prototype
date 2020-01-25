@@ -11,7 +11,7 @@ public class CameraFollow : MonoBehaviour {
     [SerializeField]
     private float playerMovementField;
     private float yDelta;
-    public float maxYDelta = 3.6f;
+    //public float maxYDelta = 3.6f;
     private bool startLerpOnY = false;
     private bool catchupWithPlayerOnX = false;
     float fractionOfJourney = 0f;
@@ -28,7 +28,10 @@ public class CameraFollow : MonoBehaviour {
     private void SetupCamera()
     {
         player = GameObject.FindWithTag("Player");
-        yDelta = Mathf.Abs(transform.position.y - player.transform.position.y);
+        if(player)
+        {
+            yDelta = Mathf.Abs(transform.position.y - player.transform.position.y);
+        }
         thisCamera = GetComponent<Camera>();
         cameraFieldWidth = thisCamera.orthographicSize * thisCamera.aspect;
         Vector3 position = transform.position;
@@ -42,36 +45,20 @@ public class CameraFollow : MonoBehaviour {
     // Use this for initialalled every frame, if the Behaviour is enabled
     private void LateUpdate()
     {
-        //if (transform.position.x > minXPosition && transform.position.x < maxXPosition)
-        //{
-            float delta = Mathf.Abs(player.transform.position.x - transform.position.x);
+        float delta = Mathf.Abs(player.transform.position.x - transform.position.x);
 
-            if (delta > playerMovementField)
-            {
-                if (player.transform.position.x < transform.position.x && transform.position.x > minXPosition) {//move towards left
-                    Vector3 newPosition = transform.position;
-                    newPosition.x -= delta - playerMovementField;
-                    transform.position = newPosition;
-                } else if(player.transform.position.x > transform.position.x && transform.position.x < maxXPosition) {//move towards right
-                    Vector3 newPosition = transform.position;
-                    newPosition.x += delta - playerMovementField;
-                    transform.position = newPosition;
-                }   
-            }
-            /*            if(!catchupWithPlayerOnX)
-                        {
-                            FollowOnXDirection();
-                        } else
-                        {
-                            Vector3 position = new Vector3(player.transform.position.x, transform.position.y, transform.position.z);
-                            transform.position = position;
-                        }
-                    }
-                    if(Mathf.Abs(transform.position.y - player.transform.position.y) > maxYDelta || startLerpOnY)
-                    {
-                        FollowOnYDirection();
-                    }*/
-        //}
+        if (delta > playerMovementField)
+        {
+            if (player.transform.position.x < transform.position.x && transform.position.x > minXPosition) {//move towards left
+                Vector3 newPosition = transform.position;
+                newPosition.x -= delta - playerMovementField;
+                transform.position = newPosition;
+            } else if(player.transform.position.x > transform.position.x && transform.position.x < maxXPosition) {//move towards right
+                Vector3 newPosition = transform.position;
+                newPosition.x += delta - playerMovementField;
+                transform.position = newPosition;
+            }   
+        }
     }
 
     private void FollowOnXDirection()
