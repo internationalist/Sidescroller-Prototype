@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CameraFollow : MonoBehaviour {
     private GameObject player;
+    [Header("Generated")]
     [SerializeField]
     private float minXPosition;
     [SerializeField]
@@ -15,10 +16,12 @@ public class CameraFollow : MonoBehaviour {
     private bool startLerpOnY = false;
     private bool catchupWithPlayerOnX = false;
     float fractionOfJourney = 0f;
+    [Header("Derclared")]
     public float worldXStart;
     public float worldXLength;
     private float cameraFieldWidth;
     Camera thisCamera;
+    private float cachedAspect;
 
     private void Awake()
     {
@@ -40,24 +43,34 @@ public class CameraFollow : MonoBehaviour {
         minXPosition = position.x;
         maxXPosition = worldXStart + worldXLength - cameraFieldWidth;
         playerMovementField = cameraFieldWidth / 3;
+        this.cachedAspect = thisCamera.aspect;
     }
 
     // Use this for initialalled every frame, if the Behaviour is enabled
     private void LateUpdate()
     {
-        float delta = Mathf.Abs(player.transform.position.x - transform.position.x);
-
-        if (delta > playerMovementField)
+        if (player)
         {
-            if (player.transform.position.x < transform.position.x && transform.position.x > minXPosition) {//move towards left
-                Vector3 newPosition = transform.position;
-                newPosition.x -= delta - playerMovementField;
-                transform.position = newPosition;
-            } else if(player.transform.position.x > transform.position.x && transform.position.x < maxXPosition) {//move towards right
-                Vector3 newPosition = transform.position;
-                newPosition.x += delta - playerMovementField;
-                transform.position = newPosition;
-            }   
+            if (thisCamera.aspect != cachedAspect)
+            {
+                SetupCamera();
+            }
+            float delta = Mathf.Abs(player.transform.position.x - transform.position.x);
+            if (delta > playerMovementField)
+            {
+                if (player.transform.position.x < transform.position.x && transform.position.x > minXPosition)
+                {//move towards left
+                    Vector3 newPosition = transform.position;
+                    newPosition.x -= delta - playerMovementField;
+                    transform.position = newPosition;
+                }
+                else if (player.transform.position.x > transform.position.x && transform.position.x < maxXPosition)
+                {//move towards right
+                    Vector3 newPosition = transform.position;
+                    newPosition.x += delta - playerMovementField;
+                    transform.position = newPosition;
+                }
+            }
         }
     }
 

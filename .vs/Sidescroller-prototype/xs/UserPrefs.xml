@@ -1,0 +1,31 @@
+﻿<Properties StartupConfiguration="{425DD70E-19AD-0B94-24DB-315C36D00E21}|">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/scripts/camera/CameraFollow.cs">
+    <Files>
+      <File FileName="Assets/scripts/camera/CameraFollow.cs" Line="50" Column="89" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="Sidescroller-prototype" expanded="True">
+            <Node name="Assets" expanded="True">
+              <Node name="scripts" expanded="True">
+                <Node name="camera" expanded="True">
+                  <Node name="CameraFollow.cs" selected="True" />
+                </Node>
+                <Node name="character" expanded="True" />
+                <Node name="Utility" expanded="True" />
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="709b2bb3-3008-4acd-ae9a-ce0862457014" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>

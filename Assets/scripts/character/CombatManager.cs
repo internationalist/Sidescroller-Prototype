@@ -49,10 +49,6 @@ public class CombatManager : MonoBehaviour {
             isColliding = true;
             entity.KickCombo = false;
             entity.PunchCombo = false;
-            if("player".Equals(entity.id))
-            {
-                Debug.Log("Stamina contained is " + entity.stamina);
-            }
 
             if (entity.Opponent.IsAttacking && !entity.playerState.Equals(EntityStates.PlayerState.block))
             {
