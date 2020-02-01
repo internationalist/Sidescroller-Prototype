@@ -10,7 +10,7 @@ public class AIInput : EntityInputAbstract
     public enum ActionType { LIGHT_ATTACK, HEAVY_ATTACK, CROUCH, JUMP, BLOCK, NONE };
     public bool lightAttack;
     public bool heavyAttack;
-    private float movementAmount;
+    
     ActionType[] actionTypes = { ActionType.LIGHT_ATTACK, ActionType.HEAVY_ATTACK, ActionType.BLOCK };
     public ActionType action;
     public float[] actionProbs;
@@ -18,6 +18,9 @@ public class AIInput : EntityInputAbstract
     private bool block;
 
     private EntityStates player;
+
+    [SerializeField]
+    private float movementAmount;
 
 
 
@@ -143,26 +146,6 @@ public class AIInput : EntityInputAbstract
 
     private ActionType GetActionType(ActionType[] actionArray, float[] probArray)
     {
-        /*int retValue = 0;
-        float total = 0;
-        foreach (int element in probArray)
-        {
-            total += element;
-        }
-
-        float randomPoint = Random.value * total;
-        for (int i = 0; i < probArray.Length; i++)
-        {
-            if (randomPoint < probArray[i])
-            {
-                retValue = i;
-                break;
-            } else
-            {
-                randomPoint -= probArray[i];
-            }
-        }
-        return actionArray[retValue];*/
         return UtilityStatic.getOutCome(actionArray, probArray);
     }
 

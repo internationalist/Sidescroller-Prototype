@@ -33,6 +33,7 @@ public class GameManager : MonoBehaviour {
     public AudioMixerSnapshot main;
     public AudioMixerSnapshot events;
     public AudioMixerSnapshot combat;
+    public bool debug;
     public static GameManager S {
 		get {
 			if (_S == null) {
@@ -121,6 +122,10 @@ public class GameManager : MonoBehaviour {
         if(!Physics.Raycast(transform.position + new Vector3(0, 1f), transform.right, out hit, Mathf.Infinity, layerMask))
         {
             hit.distance = -1;
+            DrawDebugRay(transform.position + new Vector3(0, 1f), -1 * transform.right, 1000f, Color.red);
+        } else
+        {
+            DrawDebugRay(transform.position + new Vector3(0, 1f), -1 * transform.right, hit.distance, Color.yellow);
         }
         return hit;
     }
@@ -140,8 +145,20 @@ public class GameManager : MonoBehaviour {
         if (!Physics.Raycast(transform.position + new Vector3(0, 1f), -1*transform.right, out hit, Mathf.Infinity, layerMask))
         {
             hit.distance = -1;
+            DrawDebugRay(transform.position + new Vector3(0, 1f), -1 * transform.right, 1000f, Color.red);
+        } else
+        {
+            DrawDebugRay(transform.position + new Vector3(0, 1f), -1 * transform.right, hit.distance, Color.yellow);
         }
         return hit;
+    }
+
+    public static void DrawDebugRay(Vector3 source, Vector3 direction, float distance, Color color)
+    {
+        if (S.debug)
+        {
+            Debug.DrawRay(source, direction * distance, color);
+        }
     }
 
     public void Replay()

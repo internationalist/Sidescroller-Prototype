@@ -96,7 +96,7 @@ public class CharacterManager : EntityStates {
         //caclulate if character is grounded.
         isGrounded = IsGrounded();
         isOnEdge = IsAtEdge();
-        if (!dead)
+        if (!dead && !id.Equals("player"))
         {
             AcquireTarget();
         }

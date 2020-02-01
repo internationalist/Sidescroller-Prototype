@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.Audio;
 
 [RequireComponent(typeof(CombatEffects))]
-[RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(CharacterManager))]
 /// <summary>
 /// Primary class that calculates the hit physics between weapon and target.
