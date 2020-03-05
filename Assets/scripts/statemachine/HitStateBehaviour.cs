@@ -8,6 +8,11 @@ public class HitStateBehaviour : StateComponent
     //OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        foreach (AnimatorControllerParameter parameter in animator.parameters)
+        {
+            if (parameter.type == AnimatorControllerParameterType.Bool)
+                animator.SetBool(parameter.name, false);
+        }
         base.OnStateEnter(animator, stateInfo, layerIndex);
         GameManager.TransitionToCombatSnapShot();
         movementComponent.playerState = CharacterManager.PlayerState.attacked;
@@ -23,7 +28,7 @@ public class HitStateBehaviour : StateComponent
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         {
-            Vector3 blowBack = -.6f * owner.transform.right;
+            Vector3 blowBack = -.2f * owner.transform.right;
             movementComponent.PlayerController.Move(blowBack * Time.deltaTime);
         }
     }

@@ -16,7 +16,7 @@ public class JumpStateBehaviour : StateComponent {
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
         animator.SetBool("dash", false);
-        ResetParametersExcept(animator, "jump");
+        //ResetParametersExcept(animator, "jump");
         movementComponent.playerState = CharacterManager.PlayerState.idle;
 	}
 

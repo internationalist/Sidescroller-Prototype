@@ -55,6 +55,9 @@ public class IdleStateBehaviour : StateComponent
             case CharacterManager.PlayerState.dash:
                 movementComponent.TriggerDash();
                 break;
+            case CharacterManager.PlayerState.throwobject:
+                animator.SetTrigger("throw");
+                break;
             default:
                 break;
         }
@@ -69,6 +72,10 @@ public class IdleStateBehaviour : StateComponent
         else if (!movementComponent.isGrounded)
         {
             movementComponent.playerState = CharacterManager.PlayerState.airborne;
+        }
+        else if(entityInput.ActivateThrow())
+        {
+            movementComponent.playerState = CharacterManager.PlayerState.throwobject;
         }
         else if (entityInput.ActivateCrouch())
         {

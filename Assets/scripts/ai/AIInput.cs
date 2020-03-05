@@ -10,6 +10,8 @@ public class AIInput : EntityInputAbstract
     public enum ActionType { LIGHT_ATTACK, HEAVY_ATTACK, CROUCH, JUMP, BLOCK, NONE };
     public bool lightAttack;
     public bool heavyAttack;
+    public bool throwProjectile;
+    public bool runDash;
     
     ActionType[] actionTypes = { ActionType.LIGHT_ATTACK, ActionType.HEAVY_ATTACK, ActionType.BLOCK };
     public ActionType action;
@@ -21,6 +23,15 @@ public class AIInput : EntityInputAbstract
 
     [SerializeField]
     private float movementAmount;
+
+    private bool projectileThrow;
+
+    private float lastTimeThrown;
+    public float projectileThrowInterval;
+
+    public float lastDashTime;
+    public float dashInterval;
+    public bool throwProjectileEnable;
 
 
 
@@ -37,19 +48,49 @@ public class AIInput : EntityInputAbstract
 
         if (player.enemyFound && distanceToEnemy < player.attackRange)
         {
+            ResetAttack();
             PerformCombatAction();
             movementAmount = 0;
         }
-        else if(player.enemyFound && distanceToEnemy < player.spotRange)
+        else if (player.enemyFound && distanceToEnemy < player.spotRange)
         {
             ResetAttack();
-            float transitionSpeed = .17f;
-            if(distanceToEnemy < 1.2f)
+            if (player.enemyFound && distanceToEnemy < player.aiDashRange && Time.time - lastDashTime > dashInterval)
             {
-                transitionSpeed = .08f;
+                lastDashTime = Time.time;
+                string[] dashornot = { "dash", "not" };
+                float[] probs = { 25, 75 };
+                string outcome = UtilityStatic.getOutCome(dashornot, probs);
+
+                if (outcome.Equals("dash"))
+                {
+                    Debug.Log(outcome);
+                    runDash = true;
+                }
+            } else { 
+                if (throwProjectileEnable && (Time.time - lastTimeThrown > projectileThrowInterval) && distanceToEnemy > player.throwRange)
+                {
+                    string[] dashornot = { "throw", "not" };
+                    float[] probs = { 90, 10 };
+                    string outcome = UtilityStatic.getOutCome(dashornot, probs);
+                    if (outcome.Equals("throw"))
+                    {
+                        throwProjectile = true;
+                    }
+                    lastTimeThrown = Time.time;
+                }
+                else
+                {
+                    float transitionSpeed = .17f;
+                    if (distanceToEnemy < 1.2f)
+                    {
+                        transitionSpeed = .08f;
+                    }
+                    movementAmount = Mathf.SmoothStep(movementAmount, Vector3.Dot(transform.right, Vector3.right), transitionSpeed);
+                }
             }
-            movementAmount = Mathf.SmoothStep(movementAmount, Vector3.Dot(transform.right, Vector3.right), transitionSpeed);
-        } else
+        }
+        else
         {
             ResetAttack();
             movementAmount = 0;
@@ -99,6 +140,8 @@ public class AIInput : EntityInputAbstract
         lightAttack = false;
         heavyAttack = false;
         block = false;
+        throwProjectile = false;
+        runDash = false;
     }
 
     public override bool ActivateBlock()
@@ -151,6 +194,12 @@ public class AIInput : EntityInputAbstract
 
     public override bool ActivateDash()
     {
-        return false;
+        return runDash;
     }
+
+    public override bool ActivateThrow()
+    {
+        return throwProjectile;
+    }
+
 }

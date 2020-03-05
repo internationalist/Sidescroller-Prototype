@@ -10,11 +10,13 @@ public class GameManager : MonoBehaviour {
 	//private Basic2DMovement _player;
     private Dictionary<GameObject, CharacterManager> humanoidEntityCache;
     private bool _paused = false;
+    private bool _gameWon = false;
+    private bool winSoundPlayed = false;
     public bool gameOver;
     public GameObject menupanel;
     public GameObject controlpanel;
     public GameObject helppanel;
-    private Text gameStateText;
+    public Text gameStateText;
     public int actionRegister=0;
     public AudioMixerGroup combatSound;
     public AudioMixerGroup damageSound;
@@ -30,10 +32,17 @@ public class GameManager : MonoBehaviour {
     public AudioClip ambientMusic;
     public AudioClip dashEffectSound;
 
+    public AudioClip[] winSounds;
+
     public AudioMixerSnapshot main;
     public AudioMixerSnapshot events;
     public AudioMixerSnapshot combat;
     public bool debug;
+    public GameObject GameWonPanel;
+    public ParticleSystem onDestroyGameObject;
+
+    private bool fading = false;
+    private FadeOutAndIn faoi;
     public static GameManager S {
 		get {
 			if (_S == null) {
@@ -53,10 +62,6 @@ public class GameManager : MonoBehaviour {
 	void Awake () {
         this.humanoidEntityCache = new Dictionary<GameObject, CharacterManager>();
 		_S = this;
-        if(menupanel != null)
-        {
-            gameStateText = menupanel.GetComponentInChildren<Text>();
-        }
         AudioSource[] audioSources = GetComponents<AudioSource>();
         ambientSoundSource = audioSources[0];
         ambientSoundSource.loop = true;
@@ -69,24 +74,48 @@ public class GameManager : MonoBehaviour {
         effectsSoundSource.outputAudioMixerGroup = effectsMixer;
         effectsSoundSource.playOnAwake = false;
         effectsSoundSource.loop = false;
+        faoi = GetComponent<FadeOutAndIn>();
 
     }
 
     void Update()
     {
-        if(!gameOver && Input.GetButtonDown("Cancel"))
+        CheckIfGameWon();
+        if (!gameOver && Input.GetButtonDown("Cancel"))
         {
-            if(_paused)
+            if (_paused)
             {
                 menupanel.SetActive(false);
                 _paused = false;
                 Time.timeScale = 1;
-            } else
+            }
+            else
             {
                 gameStateText.text = "Paused";
                 menupanel.SetActive(true);
                 _paused = true;
                 Time.timeScale = 0;
+            }
+        }
+    }
+
+    private void CheckIfGameWon()
+    {
+        if (_gameWon)
+        {
+            if (!ambientSoundSource.isPlaying && !winSoundPlayed)
+            {
+                ambientSoundSource.PlayOneShot(winSounds[1]);
+                winSoundPlayed = true;
+            }
+            if(fading)
+            {
+                if (faoi.FadeIn())
+                {
+                    fading = true;
+                    StartCoroutine(SceneLoader.LoadIntroScene());
+                }
+
             }
         }
     }
@@ -164,13 +193,15 @@ public class GameManager : MonoBehaviour {
     public void Replay()
     {
         Time.timeScale = 1;
-        UnityEngine.SceneManagement.SceneManager.LoadScene(1);
+        //UnityEngine.SceneManagement.SceneManager.LoadScene(1);
+        SceneLoader.LoadCurrentSceneSync();
     }
 
     public void Quit()
     {
         Time.timeScale = 1;
-        UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+        //UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+        StartCoroutine(SceneLoader.LoadIntroScene());
     }
 
     public void ShowControls()
@@ -257,6 +288,30 @@ public class GameManager : MonoBehaviour {
         {
             return _S.footsteps;
         }
+    }
+
+    public static IEnumerator GameWon()
+    {
+        yield return new WaitForSeconds(1);
+        S.GameWonPanel.SetActive(true);
+        S.ambientSoundSource.Stop();
+        S.ambientSoundSource.PlayOneShot(S.winSounds[0]);
+        S._gameWon = true;
+        S.StartCoroutine(S.TransitionToIntro());
+    }
+
+    public IEnumerator TransitionToIntro()
+    {
+        yield return new WaitForSeconds(4);
+        fading = true;
+    }
+
+    public static IEnumerator DestroyOnDeath(GameObject obj)
+    {
+        yield return new WaitForSeconds(5f);
+        S.onDestroyGameObject.transform.position = obj.transform.position;
+        S.onDestroyGameObject.Play();
+        Destroy(obj);
     }
 
 }

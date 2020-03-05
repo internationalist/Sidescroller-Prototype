@@ -243,11 +243,13 @@ namespace HeurekaGames.AssetHunterPRO
                         break;
                     }
 #endif
-                case BuildTargetGroup.Android:
+#if !UNITY_2019_3_OR_NEWER
+                case BuildTargetGroup.Facebook:
                     {
                         break;
                     }
-                case BuildTargetGroup.Facebook:
+#endif
+                case BuildTargetGroup.Android:
                     {
                         break;
                     }

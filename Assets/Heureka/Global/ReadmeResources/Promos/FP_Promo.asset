@@ -17,19 +17,39 @@ MonoBehaviour:
   AssetName: Favorites PRO
   Subheader: Favorites and History
   AssetIdentifier: Heureka.FavoritesPro
-  Description: "Favorites PRO greatly boost productivity by giving you favorites,
+  Description: 'Favorites PRO greatly boost productivity by giving you favorites,
     history and scene analysis. Easy access to all the assets you need most often.
-    No more lost time trying to find the things you need.\n\nMain Features:\n1: A
-    list of your own favorites for easy access (Both folders and individual assets)\r\n2:
+    No more lost time trying to find the things you need.
+
+
+    Main Features:
+
+    1:
+    A list of your own favorites for easy access (Both folders and individual assets)
+
+    2:
     A comprehensive automatic history of all the assets you have been using recently,
-    which allows you to quickly locate the things you use the most.\r\n3: A list of
-    all the prefabs being used in current scene. That allows you to quickly find anything
-    often used in a specific scene.\n\nQuick Start:\r\n1. Import Favorites PRO and
-    your custom favorites window will open.\r\n2. Drag and nest the window to your
-    unity workspace (Recommend next to either the Hierarchy or Project window)\r\n3.
-    Select any asset or folder in project view, and press CTRL+SHIFT+T to add it to
-    your own favorites\r\n4. You are now able to drag your favorites directly into
-    the scene"
+    which allows you to quickly locate the things you use the most.
+
+    3: A list
+    of all the prefabs being used in current scene. That allows you to quickly find
+    anything often used in a specific scene.
+
+
+    Quick Start:
+
+    1. Import Favorites
+    PRO and your custom favorites window will open.
+
+    2. Drag and nest the window
+    to your unity workspace (Recommend next to either the Hierarchy or Project window)
+
+    3.
+    Select any asset or folder in project view, and press CTRL+SHIFT+T to add it
+    to your own favorites
+
+    4. You are now able to drag your favorites directly
+    into the scene'
   Links:
   - ActiveLink: 1
     Name: Asset Store

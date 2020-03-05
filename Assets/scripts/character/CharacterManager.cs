@@ -6,21 +6,21 @@ using UnityEngine.UI;
 
 [RequireComponent(typeof(CharacterController))]
 public class CharacterManager : EntityStates {
-	private CharacterController playerController;
+	protected CharacterController playerController;
 
     public delegate void SetupAttack();
 
-    private EntityInputAbstract input;
-    private bool dead = false;
-	private float previousMovement;
-	private Animator anim;
+    protected EntityInputAbstract input;
+    protected bool dead = false;
+	protected float previousMovement;
+	protected Animator anim;
     [SerializeField]
-	private float distanceToGround;
+	protected float distanceToGround;
     //to track combos
-    private int kickComboIndex;
-    private int punchComboIndex;
+    protected int kickComboIndex;
+    protected int punchComboIndex;
 
-    private AnimatorOverrideController animatorOverrideController;
+    protected AnimatorOverrideController animatorOverrideController;
 
 
     public EntityInputAbstract Input
@@ -96,7 +96,7 @@ public class CharacterManager : EntityStates {
         //caclulate if character is grounded.
         isGrounded = IsGrounded();
         isOnEdge = IsAtEdge();
-        if (!dead && !id.Equals("player"))
+        if (!dead)
         {
             AcquireTarget();
         }
@@ -208,14 +208,18 @@ public class CharacterManager : EntityStates {
         playerState = PlayerState.death;
 
         GameManager.PlayDamageSound(deathSound, audioSources[0]);
-        if (healthBar != null && !("Player").Equals(this.tag))
+        if (healthBar != null && !("Player").Equals(this.tag) && !("Boss").Equals(this.tag))
         {
             healthBar.transform.parent.gameObject.SetActive(false);
         }
-        else
+        else if(healthBar != null && ("Boss").Equals(this.tag))//Game end event
+        {
+            StartCoroutine(GameManager.GameWon());
+        } else
         {
             GameManager.OnDeathSound();
         }
+        StartCoroutine(GameManager.DestroyOnDeath(this.gameObject));
 
     }
 
@@ -266,7 +270,12 @@ public class CharacterManager : EntityStates {
         }
 	}
 
-    public void TriggerDash()
+    public void ForwardDash()
+    {
+        anim.SetTrigger("forwardash");
+    }
+
+    public virtual void TriggerDash()
     {
         if(stamina > minimumStamina)
         {
@@ -281,6 +290,12 @@ public class CharacterManager : EntityStates {
     public void ExecuteDash(float decay)
     {
         Vector3 dir = transform.right * -1f * 8f * decay;
+        moveDirection = dir;
+        ExecuteMovementWithGravity();
+    }
+    public void ExecuteForwardDash(float decay)
+    {
+        Vector3 dir = transform.right * 8f * decay;
         moveDirection = dir;
         ExecuteMovementWithGravity();
     }
@@ -420,7 +435,11 @@ public class CharacterManager : EntityStates {
 
     private void CalculateMoveDirection(float speed)
     {
-        moveDirection.x = currentMovement * -1 * speed;
+        if(!animMotion)//If this boolean is true then movement is through animation.
+        {
+            moveDirection.x = currentMovement * -1 * speed;
+        }
+
         previousMovement = currentMovement;
     }
 

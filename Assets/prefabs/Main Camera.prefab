@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 7980643978846702940}
   - component: {fileID: 2122442280149686910}
   - component: {fileID: 8283634969433259691}
+  - component: {fileID: 4369453116754984398}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -132,6 +133,7 @@ MonoBehaviour:
   main: {fileID: 245511208306735212, guid: 633a38c42903f4d42a529068fda94ad8, type: 2}
   events: {fileID: 245554249191376070, guid: 633a38c42903f4d42a529068fda94ad8, type: 2}
   combat: {fileID: 245849825590166232, guid: 633a38c42903f4d42a529068fda94ad8, type: 2}
+  debug: 0
 --- !u!82 &8283634970286571679
 AudioSource:
   m_ObjectHideFlags: 0
@@ -347,6 +349,19 @@ MonoBehaviour:
   minXPosition: 0
   maxXPosition: 28.7
   playerMovementField: 0
-  maxYDelta: 3.6
   worldXStart: -10
   worldXLength: 40
+--- !u!114 &4369453116754984398
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8283084376091354698}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c61b04a9cd4cc084fa4ab0c07fc1461d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  introScene: 0
+  loadingBar: {fileID: 0}

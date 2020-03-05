@@ -6,6 +6,12 @@ TagManager:
   tags:
   - weapon
   - Menu
+  - weaponrh
+  - weaponlh
+  - weaponrl
+  - weaponll
+  - weaponprojectile
+  - Boss
   layers:
   - Default
   - TransparentFX

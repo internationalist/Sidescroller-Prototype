@@ -14,7 +14,11 @@ public class CombatManager : MonoBehaviour {
     private CharacterManager entity;
     CombatEffects combatEffects;
     [SerializeField]
-    bool isColliding;
+    private bool isColliding;
+    private string weaponTagName;
+    private bool doubleTap;
+    float lastHitTime;
+    public bool multiTap;
 
     public bool blockOver = false;
 
@@ -39,17 +43,59 @@ public class CombatManager : MonoBehaviour {
         }
     }
 
+    private bool canReturn()
+    {
+        bool retValue = false;
+        if(multiTap) {
+            if ((Time.time - lastHitTime) < .3f)
+            {
+                retValue = true;
+            }
+            else if (isColliding)
+            {
+                doubleTap = true;
+            }
+            else
+            {
+                doubleTap = false;
+            }
+        } else
+        {
+            if(isColliding)
+            {
+                retValue = true;
+            }
+        }
+
+        return retValue;
+    }
+
 
     void OnTriggerEnter(Collider other)
 	{
-        if (other.gameObject.tag.Equals("weapon")) //only record attacks that happen as a reasult of attack animations.
+        if (other.gameObject.tag.StartsWith("weapon")) //only record attacks that happen as a reasult of attack animations.
         {
-            if (isColliding) return;
+
+
+
+            if (canReturn())
+            {
+                return;
+            }
+
+            lastHitTime = Time.time;
+            weaponTagName = other.gameObject.tag;
             isColliding = true;
             entity.KickCombo = false;
             entity.PunchCombo = false;
-
-            if (entity.Opponent.IsAttacking && !entity.playerState.Equals(EntityStates.PlayerState.block))
+            if(other.gameObject.tag.Equals("weaponprojectile"))
+            {
+                if(entity.isGrounded)
+                {
+                    anim.SetTrigger("throwback");
+                }
+                bool dead = entity.RegisterDamage(entity.Opponent.heavyAttack);
+            } else if (entity.Opponent.IsAttacking && !entity.playerState.Equals(EntityStates.PlayerState.block))
             {
                 Vector3 effectPos = new Vector3(other.transform.position.x, other.transform.position.y, 3f);
                 if (entity.Opponent.playerState.Equals(EntityStates.PlayerState.lightattack))
@@ -95,7 +141,8 @@ public class CombatManager : MonoBehaviour {
     {
         anim.SetTrigger("guardbreak");
         GameManager.PlayAttackSound(entity.punchsound, entity.audioSources[0]);
-        combatEffects.CheckIfDeadAndCreateHurtEffects(entity.Opponent.guardBreak,
+        bool dead = entity.RegisterDamage(entity.Opponent.guardBreak);
+        combatEffects.CheckIfDeadAndCreateHurtEffects(dead,
                                                             EntityStates.PlayerState.guardbreak);
     }
 
@@ -103,22 +150,38 @@ public class CombatManager : MonoBehaviour {
 
     private void RunHeavyAttack(Vector3 effectPos)
     {
-        anim.SetTrigger("heavyhit");
+        if (doubleTap)
+        {
+            anim.SetTrigger("heavyhit-2");
+        }
+        else
+        {
+            anim.SetTrigger("heavyhit");
+        }
         entity.Opponent.KickCombo = true;
         anim.SetBool("block", false);
         GameManager.PlayAttackSound(entity.kicksound, entity.audioSources[0]);
-        combatEffects.CheckIfDeadAndCreateHurtEffects(entity.Opponent.heavyAttack, 
+        bool dead = entity.RegisterDamage(entity.Opponent.heavyAttack);
+        combatEffects.CheckIfDeadAndCreateHurtEffects(dead, 
                                                             EntityStates.PlayerState.heavyattack,
                                                             effectPos);
     }
 
     private void RunLightAttack(Vector3 effectPos)
     {
-        anim.SetTrigger("lighthit");
+        if (doubleTap)
+        {
+            anim.SetTrigger("lighthit-2");
+        }
+        else
+        {
+            anim.SetTrigger("lighthit");
+        }
         entity.Opponent.PunchCombo = true;
         anim.SetBool("block", false);
         GameManager.PlayAttackSound(entity.punchsound, entity.audioSources[0]);
-        combatEffects.CheckIfDeadAndCreateHurtEffects(entity.Opponent.lightAttack,
+        bool dead = entity.RegisterDamage(entity.Opponent.lightAttack);
+        combatEffects.CheckIfDeadAndCreateHurtEffects(dead,
                                                             EntityStates.PlayerState.lightattack,
                                                             effectPos);
     }

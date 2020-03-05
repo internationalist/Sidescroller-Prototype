@@ -36,12 +36,19 @@ public class CameraFollow : MonoBehaviour {
             yDelta = Mathf.Abs(transform.position.y - player.transform.position.y);
         }
         thisCamera = GetComponent<Camera>();
-        cameraFieldWidth = thisCamera.orthographicSize * thisCamera.aspect;
-        Vector3 position = transform.position;
-        position.x = worldXStart + cameraFieldWidth;
-        transform.position = position;
-        minXPosition = position.x;
-        maxXPosition = worldXStart + worldXLength - cameraFieldWidth;
+        cameraFieldWidth = thisCamera.orthographicSize * thisCamera.aspect * 2;
+        if(cameraFieldWidth < worldXLength)
+        {
+            Vector3 position = transform.position;
+            position.x = worldXStart + cameraFieldWidth/2;
+            transform.position = position;
+            minXPosition = position.x;
+            maxXPosition = worldXStart + worldXLength - cameraFieldWidth/2;
+        } else
+        {
+            minXPosition = transform.position.x;
+            maxXPosition = transform.position.x;
+        }
         playerMovementField = cameraFieldWidth / 3;
         this.cachedAspect = thisCamera.aspect;
     }
@@ -62,12 +69,20 @@ public class CameraFollow : MonoBehaviour {
                 {//move towards left
                     Vector3 newPosition = transform.position;
                     newPosition.x -= delta - playerMovementField;
+                    if(newPosition.x < minXPosition)
+                    {
+                        newPosition.x = minXPosition;
+                    }
                     transform.position = newPosition;
                 }
                 else if (player.transform.position.x > transform.position.x && transform.position.x < maxXPosition)
                 {//move towards right
                     Vector3 newPosition = transform.position;
                     newPosition.x += delta - playerMovementField;
+                    if(newPosition.x > maxXPosition)
+                    {
+                        newPosition.x = maxXPosition;
+                    }
                     transform.position = newPosition;
                 }
             }

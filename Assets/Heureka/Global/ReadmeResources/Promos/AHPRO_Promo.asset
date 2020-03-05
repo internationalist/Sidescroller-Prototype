@@ -3,8 +3,9 @@
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -17,22 +18,25 @@ MonoBehaviour:
   Subheader: Project Cleaning Tool
   AssetIdentifier: Heureka.AssetHunterPro
   Description: 'Asset Hunter PRO is THE project cleaning tool of the asset store.
-    It will help you locate all the unused asset and delete them. It will reduce time
-    spend waiting for the editor to load. It also simply boosts productivity in general
-    by having to search through less stuff.
+    It will help you locate all the unused asset and delete them. It will reduce
+    time spend waiting for the editor to load. It also simply boosts productivity
+    in general by having to search through less stuff.
 
 
-    Its based on the learnings from Asset Hunter 2, but its a full rewrite with new
-    features, new UI, improved workflow and HUGE performance gains.
+    Its based on the learnings
+    from Asset Hunter 2, but its a full rewrite with new features, new UI, improved
+    workflow and HUGE performance gains.
 
 
-    Asset Hunter can also aid you in finding those pesky assets that bloat your buildsize
-    by giving you a sortable list of used assets.
+    Asset Hunter can also aid you in finding
+    those pesky assets that bloat your buildsize by giving you a sortable list of
+    used assets.
 
 
-    Asset Hunter PRO will be released early January 2019 and will be a free update
-    for user who purchased Asset Hunter 2 within the last 6 months. Older users wont
-    have to pay full price, but can upgrade by paying an upgrade fee.'
+    Asset Hunter PRO will be released early January 2019 and will
+    be a free update for user who purchased Asset Hunter 2 within the last 6 months.
+    Older users wont have to pay full price, but can upgrade by paying an upgrade
+    fee.'
   Links:
   - ActiveLink: 1
     Name: Asset Store

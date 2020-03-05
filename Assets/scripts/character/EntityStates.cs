@@ -22,6 +22,8 @@ public class EntityStates : MonoBehaviour {
     public int enemyLayer;
     public float attackRange;
     public float spotRange;
+    public float aiDashRange;
+    public float throwRange;
     public float minDistance;
     public int lightAttack;
     public int heavyAttack;
@@ -82,6 +84,8 @@ public class EntityStates : MonoBehaviour {
 
     public PlayerState playerState;
 
+    public bool animMotion = false;
+
     private EntityStates opponent;
     private bool kickCombo;
     private bool punchCombo;
@@ -90,7 +94,7 @@ public class EntityStates : MonoBehaviour {
     //Player action states
     public enum PlayerState
     {
-        idle, movement, lightattack, heavyattack, jump, airborne, crouch, retreat, attacked, death, block, attackblocked, stunned,outofstamina,onedge, dash, guardbreak
+        idle, movement, lightattack, heavyattack, jump, airborne, crouch, retreat, attacked, death, block, attackblocked, stunned,outofstamina,onedge, dash, guardbreak, throwobject,forwarddash
     }
 
     public bool IsAttacking

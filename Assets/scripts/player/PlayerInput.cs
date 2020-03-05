@@ -34,6 +34,11 @@ public class PlayerInput : EntityInputAbstract
         return Input.GetMouseButtonDown(0);
     }
 
+    public override bool ActivateThrow()
+    {
+        return false;
+    }
+
     public override float MovementAmount()
     {
         return Input.GetAxis("Horizontal");

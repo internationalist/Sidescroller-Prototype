@@ -27,15 +27,17 @@ public class BlockStateBehaviour : StateComponent {
     override public void EvaluateState(Animator animator) {
         if (entityInput.ActivateDash())
         {
-            animator.SetBool("block", false);
+            //animator.SetBool("block", false);
             animator.SetBool("dash", true);
         }
         else if (entityInput.ActivateLightAttack()) {
-            movementComponent.ExecuteLightAttack(() => { animator.SetBool("block", false); });
+            //movementComponent.ExecuteLightAttack(() => { animator.SetBool("block", false); });
+            movementComponent.ExecuteLightAttack(null);
         }
         else if (entityInput.ActivateHeavyAttack())
         {
-            movementComponent.ExecuteHeavyAttack(() => { animator.SetBool("block", false); });
+            //movementComponent.ExecuteHeavyAttack(() => { animator.SetBool("block", false); });
+            movementComponent.ExecuteHeavyAttack(null);
         }
         else if (!entityInput.ActivateBlock())
         {

@@ -34,6 +34,8 @@ public abstract class EntityInputAbstract : MonoBehaviour {
     /// <returns></returns>
     public abstract float MovementAmount();
 
+    public abstract bool ActivateThrow();
+
     /// <summary>
     /// Input data to activate a dash movement. This method will be implemented by Player input or an AI script.
     /// </summary>

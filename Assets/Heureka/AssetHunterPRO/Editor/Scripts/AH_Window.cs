@@ -17,7 +17,7 @@ namespace HeurekaGames.AssetHunterPRO
     {
         public const int WINDOWMENUITEMPRIO = 11;
 
-        public const string VERSION = "1.2.8";
+        public const string VERSION = "1.2.9";
         private static AH_Window m_window;
 
         [NonSerialized] bool m_Initialized;

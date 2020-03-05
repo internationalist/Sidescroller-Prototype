@@ -6,25 +6,72 @@ using UnityEngine.UI;
 
 public class SceneLoader : MonoBehaviour
 {
-    private bool loading = false;
-    public Image loadingBar;
-    // Update is called once per frame
-    void Update()
+    private static SceneLoader _S;
+    public bool introScene;
+    public static SceneLoader S
     {
-       if(Input.anyKeyDown && !loading)
+        get
         {
-            loading = true;
-            StartCoroutine(LoadGameScene());
+            if (_S == null)
+            {
+                Debug.LogError("Attempt to access GameManager singleton before initialization");
+            }
+            return _S;
+        }
+        set
+        {
+            if (_S != null)
+            {
+                Debug.LogError("Redundant attempt to create already initialized singleton. ");
+            }
+            else
+            {
+                _S = value;
+            }
         }
     }
 
-    public IEnumerator LoadGameScene()
+    public void Awake()
     {
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(1);
+        _S = this;
+    }
+    private bool loading = false;
+    public Image loadingBar;
+
+    public static IEnumerator LoadNextScene()
+    {
+        int sceneIndex = SceneManager.GetActiveScene().buildIndex + 1;
+        return S.LoadScene(sceneIndex);
+    }
+    
+
+    public static IEnumerator LoadIntroScene()
+    {
+        return S.LoadScene(0);
+    }
+
+    public static IEnumerator LoadCurrentScene()
+    {
+        int sceneIndex = SceneManager.GetActiveScene().buildIndex;
+        return S.LoadScene(sceneIndex);
+    }
+
+    public static void LoadCurrentSceneSync()
+    {
+        int sceneIndex = SceneManager.GetActiveScene().buildIndex;
+        UnityEngine.SceneManagement.SceneManager.LoadScene(sceneIndex);
+    }
+
+    private IEnumerator LoadScene(int sceneIndex)
+    {
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneIndex);
         // Wait until the asynchronous scene fully loads
         while (!asyncLoad.isDone)
         {
-            loadingBar.fillAmount = asyncLoad.progress * 100;
+            if (S.loadingBar)
+            {
+                S.loadingBar.fillAmount = asyncLoad.progress * 100;
+            }
             yield return null;
         }
     }

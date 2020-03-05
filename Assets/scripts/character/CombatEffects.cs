@@ -15,11 +15,9 @@ public class CombatEffects: MonoBehaviour
     }
 
 
-    public void CheckIfDeadAndCreateHurtEffects(int attack, EntityStates.PlayerState playerState,
+    public void CheckIfDeadAndCreateHurtEffects(bool dead, EntityStates.PlayerState playerState,
                                                         Vector3 effectPos = default(Vector3))
     {
-        bool dead = entity.RegisterDamage(attack);
-
         Vector3 moddedEffectPos = new Vector3(effectPos.x, transform.position.y + 2f, effectPos.z);
         if (!dead)
         {

@@ -20,31 +20,37 @@ MonoBehaviour:
   Description: 'Asset Hunter is THE project cleaning tool of the asset store.
 
 
-    It helps you locate all the unused asset and delete them. It will reduce time
-    spend waiting for the editor to load, it also simply boosts productivity in general
+    It
+    helps you locate all the unused asset and delete them. It will reduce time spend
+    waiting for the editor to load, it also simply boosts productivity in general
     by having to search through less stuff.
 
 
     Quick start:
 
-    1: Open Asset Hunter PRO (Ctrl+H)
+    1: Open Asset
+    Hunter PRO (Ctrl+H)
 
     2: Create a build
 
-    3: Load newly created log into Asset Hunter PRO
+    3: Load newly created log into
+    Asset Hunter PRO
 
     4: Inspect and delete unused assets
 
-    5: Use settings to ignore certain types, folders etc.
+    5: Use settings
+    to ignore certain types, folders etc.
 
 
     On the roadmap:
 
-    Information on added assemblies [DONE]
+    Information
+    on added assemblies [DONE]
 
     Improved unused script detection
 
-    Buildinfo comparison
+    Buildinfo
+    comparison
 
     Asset Dependency graph
 
@@ -91,8 +97,8 @@ MonoBehaviour:
       Patch: 1
     VersionChanges:
     - '[Feature] Folders show accumulated disc size used'
-    - '[UI Enhancement] Now the refresh button changes color when project is out of
-      sync with buildinfo treeview'
+    - '[UI Enhancement] Now the refresh button changes color when project is out
+      of sync with buildinfo treeview'
     - '[Documentation] Added documentation for 1.1.0'
     FoldOut: 0
   - VersionNum:
@@ -164,8 +170,8 @@ MonoBehaviour:
       Minor: 2
       Patch: 0
     VersionChanges:
-    - '[Feature] Added a way to save a given list of assets into a json file for external
-      use'
+    - '[Feature] Added a way to save a given list of assets into a json file for
+      external use'
     FoldOut: 0
   - VersionNum:
       Major: 1
@@ -190,8 +196,8 @@ MonoBehaviour:
       Minor: 2
       Patch: 3
     VersionChanges:
-    - '[Warning] Used precompile directive to remove warning for obsolete method in
-      2019'
+    - '[Warning] Used precompile directive to remove warning for obsolete method
+      in 2019'
     FoldOut: 0
   - VersionNum:
       Major: 1
@@ -199,7 +205,7 @@ MonoBehaviour:
       Patch: 4
     VersionChanges:
     - '[Bug] Fixed an issue with size of folders not being calculated correctly'
-    FoldOut: 0
+    FoldOut: 1
   - VersionNum:
       Major: 1
       Minor: 2
@@ -207,7 +213,7 @@ MonoBehaviour:
     VersionChanges:
     - '[Bug] Cleaned up duplicate delegate subscription issue when opening and closing
       windows multiple times'
-    FoldOut: 1
+    FoldOut: 0
   - VersionNum:
       Major: 1
       Minor: 2
@@ -215,19 +221,26 @@ MonoBehaviour:
     VersionChanges:
     - '[Feature] Now Asset Hunter ignores .git folders inside the asset folder when
       deleting empty folders'
-    FoldOut: 1
+    FoldOut: 0
   - VersionNum:
       Major: 1
       Minor: 2
       Patch: 7
     VersionChanges:
-    - Removed GC collect, since its performance implications outweighed the rare outofmemory
-      issues
-    FoldOut: 1
+    - Removed GC collect, since its performance implications outweighed the rare
+      outofmemory issues
+    FoldOut: 0
   - VersionNum:
       Major: 1
       Minor: 2
       Patch: 8
     VersionChanges:
     - Minor refactor
+    FoldOut: 0
+  - VersionNum:
+      Major: 1
+      Minor: 2
+      Patch: 9
+    VersionChanges:
+    - '[Warning] Fixed facebook warning in 2019.3'
     FoldOut: 1

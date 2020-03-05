@@ -46,9 +46,12 @@ public abstract class StateComponent : StateMachineBehaviour
         {
             if(!parameter.name.Equals(except))
             {
-                if(AnimatorControllerParameterType.Bool.Equals(parameter.GetType()))
+                if(AnimatorControllerParameterType.Bool.Equals(parameter.type))
                 {
                     animator.SetBool(parameter.name, false);
+                } else if(AnimatorControllerParameterType.Trigger.Equals(parameter.type))
+                {
+                    animator.ResetTrigger(parameter.name);
                 }
             }
         }
